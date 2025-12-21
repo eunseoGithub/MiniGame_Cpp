@@ -1,6 +1,6 @@
 #include "CombatSystem.h"
 
-CombatSystem::CombatSystem(const vector<Monster*>& monster, Player* const player)
+CombatSystem::CombatSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
 {
 	this->monster = monster;
 	this->player = player;
@@ -11,7 +11,7 @@ void CombatSystem::PlayerAttackMonster()
 		return;
 	int px = player->GetX();
 	int py = player->GetY();
-	for (Monster* m : monster)
+	for (const auto& m : monster)
 	{
 		int mx = m->GetX();
 		int my = m->GetY();
@@ -35,7 +35,7 @@ void CombatSystem::MonsterAttackPlayer()
 	int px = player->GetX();
 	int py = player->GetY();
 	player->Evade();
-	for (Monster* m : monster)
+	for (const auto& m : monster)
 	{
 		if (!m->GetAttack())
 			continue;

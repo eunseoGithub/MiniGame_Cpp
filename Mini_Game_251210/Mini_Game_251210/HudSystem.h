@@ -6,11 +6,11 @@
 class HudSystem
 {
 public:
-	HudSystem(const vector<Monster*>& monster, Player* const player);
+	HudSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player);
 	void UIPrint();
 
 private:
-	vector <Monster*> monster;
-	Player* player;
+	vector <shared_ptr<Monster>> monster;
+	shared_ptr<Player> player;
 };
 

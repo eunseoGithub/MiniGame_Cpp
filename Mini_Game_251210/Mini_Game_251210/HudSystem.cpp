@@ -1,6 +1,6 @@
 #include "HudSystem.h"
 
-HudSystem::HudSystem(const vector<Monster*>& monster, Player* const player)
+HudSystem::HudSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
 {
 	this->monster = monster;
 	this->player = player;

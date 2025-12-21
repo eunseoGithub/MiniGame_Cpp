@@ -1,6 +1,6 @@
 #include "Map.h"
 
-Map::Map(int size, const vector<Monster*>& monster, Player* const player)
+Map::Map(int size, const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
 {
 	this->size = size;
 	this->monster = monster;

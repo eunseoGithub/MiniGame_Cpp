@@ -6,21 +6,14 @@ void GameManager::Initialize()
 	{
 		Instance = new GameManager();
 	}
-	Player* player = new Player(10,10);
-	Monster* cmonster = new Monster(1, 3);
-	Monster* dmonster = new Monster(4, 5);
-	Instance->monster.push_back(cmonster);
-	Instance->monster.push_back(dmonster);
-	Instance->player = player;
-	Map* cmap = new Map(20, Instance->monster, Instance->player);
-	Instance->map = cmap;
+	Instance->monster.push_back(make_shared<Monster>(1,3));
+	Instance->monster.push_back(make_shared<Monster>(4,5));
+	Instance->player = make_shared<Player>(10,10);
+	Instance->map = make_shared<Map>(20, Instance->monster, Instance->player);
 	Instance->currentCommand = NULL;
-	CombatSystem* combatSystem = new CombatSystem(Instance->monster, Instance->player);
-	CollisionSystem* collisionSystem = new CollisionSystem(Instance->monster, Instance->player);
-	HudSystem* hudSystem = new HudSystem(Instance->monster, Instance->player);
-	Instance->combatSystem = combatSystem;
-	Instance->collisionSystem = collisionSystem;
-	Instance->hudSystem = hudSystem;
+	Instance->combatSystem = make_shared<CombatSystem>(Instance->monster, Instance->player);
+	Instance->collisionSystem = make_shared<CollisionSystem>(Instance->monster, Instance->player);
+	Instance->hudSystem = make_shared<HudSystem>(Instance->monster, Instance->player);
 	srand(time(0));
 }
 
@@ -88,7 +81,7 @@ void GameManager::Render()
 
 void GameManager::DeleteMember()
 {
-	delete(player);
+	/*delete(player);
 	for (int i = 0; i < monster.size(); i++)
 	{
 		delete(monster[i]);
@@ -96,7 +89,8 @@ void GameManager::DeleteMember()
 	delete(map);
 	delete(combatSystem);
 	delete(collisionSystem);
-	delete(hudSystem);
+	delete(hudSystem);*/
+
 };
 
 bool GameManager::CheckWin()

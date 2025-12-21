@@ -1,6 +1,6 @@
 #include "CollisionSystem.h"
 
-CollisionSystem::CollisionSystem(const vector<Monster*>& monster, Player* const player)
+CollisionSystem::CollisionSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
 {
 	this->monster = monster;
 	this->player = player;

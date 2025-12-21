@@ -5,15 +5,15 @@
 class CollisionSystem
 {
 public:
-	CollisionSystem(const vector<Monster*>& monster, Player* const player);
+	CollisionSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player);
 	void ResolvePosition();
 
 private:
 	void RandomFreePosition() const;
 
 private:
-	vector <Monster*> monster;
-	Player* player;
+	vector <shared_ptr<Monster>> monster;
+	shared_ptr<Player> player;
 
 };
 

@@ -13,21 +13,14 @@ class GameManager
 private:
 	static GameManager* Instance;
 	
-	//shared_ptr<Map> map;
-	//vector<shared_ptr<Monster>> monster;
-	//shared_ptr<Player> player;
+	shared_ptr<Map> map;
+	vector<shared_ptr<Monster>> monster;
+	shared_ptr<Player> player;
 
-	//shared_ptr<HudSystem> hudSystem;
-	//shared_ptr<CombatSystem> combatSystem;
-	//shared_ptr<CollisionSystem> collisionSystem;
+	shared_ptr<HudSystem> hudSystem;
+	shared_ptr<CombatSystem> combatSystem;
+	shared_ptr<CollisionSystem> collisionSystem;
 
-	Map* map;
-	vector<Monster*> monster;
-	Player* player;
-
-	HudSystem* hudSystem;
-	CombatSystem* combatSystem;
-	CollisionSystem* collisionSystem;
 
 	char currentCommand;
 	AttackRange gAttackRange;

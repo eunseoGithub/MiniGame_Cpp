@@ -4,6 +4,7 @@ PotionShop::PotionShop(int x, int y)
 {
 	posX = x;
 	posY = y;
+	potion = 5;
 }
 
 void PotionShop::DispensePotion()
@@ -30,4 +31,12 @@ int PotionShop::GetY()
 void PotionShop::SetY(int y)
 {
 	posY = y;
+}
+int PotionShop::GetPotion()
+{
+	return potion;
+}
+void PotionShop::SetPotion(int potion)
+{
+	this->potion = potion;
 }
