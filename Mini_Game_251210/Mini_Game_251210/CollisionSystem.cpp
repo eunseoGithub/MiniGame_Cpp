@@ -44,37 +44,28 @@ void CollisionSystem::ResolvePosition()
 void CollisionSystem::RandomFreePosition() const
 {
 	//Queue로 randomShuffleing으로 수정 예정
-	vector<pair<int, int>> usedPositions;
-	usedPositions.push_back({ player->GetX(),player->GetY() });
-	for (auto* m : monster)
+	vector<pair<int, int>> pos;
+	queue<pair<int, int>> randomPos;
+	for (int i = 0; i < 20; i++)
 	{
-		int newX, newY;
-
-		while (1)
+		for (int j = 0; j < 20; j++)
 		{
-			int rx = rand() % 20;
-			int ry = rand() % 20;
-
-			bool overlapped = false;
-			for (auto& pos : usedPositions)
-			{
-				if (pos.first == rx && pos.second == ry)
-				{
-					overlapped = true;
-					break;
-				}
-			}
-			if (!overlapped)
-			{
-				newX = rx;
-				newY = ry;
-				break;
-			}
-
+			pos.push_back({ i,j });
 		}
-		m->SetX(newX);
-		m->SetY(newY);
-
-		usedPositions.push_back({ newX,newY });
 	}
+	random_shuffle(pos.begin(), pos.end());
+	for (int i = 0; i < pos.size(); i++)
+	{
+		randomPos.push(pos[i]);
+	}
+	for (int i = 0; i < monster.size(); i++)
+	{
+		if (player->GetX() != randomPos.front().first && player->GetY() != randomPos.front().second)
+		{
+			monster[i]->SetX(randomPos.front().first);
+			monster[i]->SetY(randomPos.front().second);
+		}
+		randomPos.pop();
+	}
+	
 }

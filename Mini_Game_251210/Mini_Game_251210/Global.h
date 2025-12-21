@@ -2,6 +2,7 @@
 #include<iostream>
 #include<algorithm>
 #include<vector>
+#include<memory>
 using namespace std;
 
 struct Movement

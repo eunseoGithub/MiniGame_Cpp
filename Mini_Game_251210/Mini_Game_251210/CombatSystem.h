@@ -7,7 +7,7 @@ class CombatSystem
 {
 public:
 	CombatSystem(const vector<Monster*>& monster, Player* const player);
-
+	 
 	void MonsterAttackPlayer();
 	void PlayerAttackMonster();
 private:
