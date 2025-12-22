@@ -4,8 +4,9 @@ void GameManager::Initialize()
 {
 	if (Instance == nullptr)
 	{
-		Instance = new GameManager();
+		Instance = shared_ptr<GameManager>(new GameManager());
 	}
+	
 	Instance->monster.push_back(make_shared<Monster>(1,3));
 	Instance->monster.push_back(make_shared<Monster>(4,5));
 	Instance->player = make_shared<Player>(10,10);

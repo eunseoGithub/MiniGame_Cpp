@@ -9,10 +9,29 @@
 #include "CollisionSystem.h"
 
 class GameManager
-{
-private:
-	static GameManager* Instance;
+{	
+public:
+	static void Initialize();
+	static weak_ptr<GameManager> GetInstance() { return Instance; }
 	
+	void Input();
+	void Update();
+	void Render();
+	void DeleteMember();
+	bool CheckWin();
+	bool CheckLose();
+
+	~GameManager() = default;
+private:
+	GameManager() = default;
+	
+	
+	GameManager(const GameManager&) = delete;//복사 금지
+	GameManager& operator=(const GameManager&) = delete;//대입 금지
+
+private:
+	static shared_ptr<GameManager> Instance;
+
 	shared_ptr<Map> map;
 	vector<shared_ptr<Monster>> monster;
 	shared_ptr<Player> player;
@@ -24,16 +43,5 @@ private:
 
 	char currentCommand;
 	AttackRange gAttackRange;
-	
-public:
-	static void Initialize();
-	static GameManager* GetInstance() { return Instance; }
-	
-	void Input();
-	void Update();
-	void Render();
-	void DeleteMember();
-	bool CheckWin();
-	bool CheckLose();
 };
 

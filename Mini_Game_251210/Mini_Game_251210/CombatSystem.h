@@ -6,7 +6,7 @@
 class CombatSystem
 {
 public:
-	CombatSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player);
+	CombatSystem(const vector<shared_ptr<Monster>>& monster , const shared_ptr<Player>& player);
 	 
 	void MonsterAttackPlayer();
 	void PlayerAttackMonster();
