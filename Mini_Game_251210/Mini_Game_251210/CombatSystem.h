@@ -2,17 +2,17 @@
 #include "Global.h"
 #include "Player.h"
 #include "Monster.h"
-
+#include "PtrUtil.h"
 class CombatSystem
 {
 public:
-	CombatSystem(const vector<shared_ptr<Monster>>& monster , const shared_ptr<Player>& player);
+	CombatSystem(const vector<shared_ptr<Monster>>& monsters , const shared_ptr<Player>& players);
 	 
 	void MonsterAttackPlayer();
 	void PlayerAttackMonster();
 private:
-	vector<shared_ptr<Monster>> monster;
-	shared_ptr<Player> player;
+	vector<weak_ptr<Monster>> monster;
+	weak_ptr<Player> player;
 	AttackRange gAttackRange;
 };
 

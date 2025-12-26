@@ -6,7 +6,6 @@ void GameManager::Initialize()
 	{
 		Instance = shared_ptr<GameManager>(new GameManager());
 	}
-	
 	Instance->monster.push_back(make_shared<Monster>(1,3));
 	Instance->monster.push_back(make_shared<Monster>(4,5));
 	Instance->player = make_shared<Player>(10,10);
@@ -16,6 +15,8 @@ void GameManager::Initialize()
 	Instance->collisionSystem = make_shared<CollisionSystem>(Instance->monster, Instance->player);
 	Instance->hudSystem = make_shared<HudSystem>(Instance->monster, Instance->player);
 	srand(time(0));
+
+	
 }
 
 void GameManager::Input()

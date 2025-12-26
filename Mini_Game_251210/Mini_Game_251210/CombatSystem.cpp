@@ -1,17 +1,29 @@
 #include "CombatSystem.h"
 
-CombatSystem::CombatSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
+CombatSystem::CombatSystem(const vector<shared_ptr<Monster>>& monsters, const shared_ptr<Player>& players)
 {
-	this->monster = monster;
-	this->player = player;
+	monster.reserve(monster.size());
+	for (const auto& m : monsters)
+	{
+		monster.push_back(m);
+	}
+	this->player = players;
 }
+
 void CombatSystem::PlayerAttackMonster()
 {
-	if (!player->GetAttack())
+	auto wPlayer = LockOrNull(player);
+	if (wPlayer == nullptr || !wPlayer->GetAttack())
 		return;
-	int px = player->GetX();
-	int py = player->GetY();
-	for (const auto& m : monster)
+	
+	auto wMonster = LockAlive(monster);
+	if (wMonster.empty())
+		return;
+	
+	int px = wPlayer->GetX();
+	int py = wPlayer->GetY();
+		
+	for (const auto& m : wMonster)
 	{
 		int mx = m->GetX();
 		int my = m->GetY();
@@ -32,10 +44,16 @@ void CombatSystem::PlayerAttackMonster()
 
 void CombatSystem::MonsterAttackPlayer()
 {
-	int px = player->GetX();
-	int py = player->GetY();
-	player->Evade();
-	for (const auto& m : monster)
+	auto wPlayer = LockOrNull(player);
+	if (wPlayer == nullptr || !wPlayer->GetAttack())
+		return;
+	auto wMonster = LockAlive(monster);
+	if (wMonster.empty())
+		return;
+	int px = wPlayer->GetX();
+	int py = wPlayer->GetY();
+	wPlayer->Evade();
+	for (const auto& m : wMonster)
 	{
 		if (!m->GetAttack())
 			continue;
@@ -50,8 +68,8 @@ void CombatSystem::MonsterAttackPlayer()
 
 			if (px == tx && py == ty)
 			{
-				if (!player->GetEvade())
-					player->Damage();
+				if (!wPlayer->GetEvade())
+					wPlayer->Damage();
 				break;
 			}
 		}

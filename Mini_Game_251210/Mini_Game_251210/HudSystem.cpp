@@ -1,15 +1,29 @@
 #include "HudSystem.h"
 
-HudSystem::HudSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
+HudSystem::HudSystem(const vector<shared_ptr<Monster>>& monsters, const shared_ptr<Player>& players)
 {
-	this->monster = monster;
-	this->player = player;
+	monster.reserve(monster.size());
+	for (const auto& m : monsters)
+	{
+		monster.push_back(m);
+	}
+	this->player = players;
 }
+
 void HudSystem::UIPrint()
 {
-	cout << "Player HP : " << player->GetHp() << endl;
-	for (int i = 0; i < monster.size(); i++)
+	auto wPlayer = LockOrNull(player);
+	if (wPlayer == nullptr)
+		return;
+
+	auto wMonster = LockAlive(monster);
+	if (wMonster.empty())
+		return;
+
+	cout << "Player HP : " << wPlayer->GetHp() << endl;
+	for (const auto& m : wMonster)
 	{
-		cout << "Monster" << i + 1 << " : " << monster[i]->GetHp() << endl;
+		cout << "Monster : " << m->GetHp() << endl;
 	}
+
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Monster.h"
 #include "Player.h"
+#include "PtrUtil.h"
 #include<queue>
 class CollisionSystem
 {
@@ -10,10 +11,9 @@ public:
 
 private:
 	void RandomFreePosition() const;
-
 private:
-	vector <shared_ptr<Monster>> monster;
-	shared_ptr<Player> player;
+	vector <weak_ptr<Monster>> monster;
+	weak_ptr<Player> player;
 
 };
 

@@ -1,37 +1,46 @@
 #include "Map.h"
 
-Map::Map(int size, const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
+Map::Map(int size, const vector<shared_ptr<Monster>>& monsters, const shared_ptr<Player>& players)
 {
 	this->size = size;
-	this->monster = monster;
-	this->player = player;
+	monster.reserve(monsters.size());
+	for (const auto& m : monsters)
+	{
+		monster.push_back(m);
+	}
+	this->player = players;
 }
 
 Map::~Map()
 {
-
+	
 }
 
 bool Map::RenderPlayer(int x, int y)
 {
-	if (player->GetDead())
+	auto wPlayer = LockOrNull(player);
+	if (wPlayer == nullptr || wPlayer->GetDead())
 		return false;
-	if (player->GetX() == y && player->GetY() == x)
+
+	if (wPlayer->GetX() == y && wPlayer->GetY() == x)
 	{
 		return true;
 	}
 	return false;
 }
 
-bool Map::RenderMonster(int x, int y)
+bool Map::RenderMonster(int y, int x)
 {
-	for (int i = 0; i < monster.size(); i++)
+	auto wMonster = LockAlive(monster);
+	
+	for (auto& m : wMonster)
 	{
-		if (monster[i]->GetX() == y && monster[i]->GetY() == x)
+		if (m->GetX() == x && m->GetY() == y)
 		{
-			return monster[i]->GetDead() == false;
+			return m->GetDead() == false;
 		}
 	}
+
 	return false;
 }
 

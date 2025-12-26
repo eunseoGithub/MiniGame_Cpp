@@ -6,22 +6,24 @@ shared_ptr<GameManager> GameManager::Instance = nullptr;
 
 int main()
 {
+	shared_ptr<int> i = make_shared<int>(1);
+	weak_ptr<int> k = i;
 
 	GameManager::Initialize();
+
 	if (auto gameManager = GameManager::GetInstance().lock())
 	{
 		while (1)
 		{
 			gameManager->Input();
 			gameManager->Update();
-
-			if (GameManager::GetInstance()->CheckWin())
+			if (gameManager->CheckWin())
 				break;
-			if (GameManager::GetInstance()->CheckLose())
+			if (gameManager->CheckLose())
 				break;
-			GameManager::GetInstance()->Render();
+			gameManager->Render();
 		}
-		GameManager::GetInstance()->DeleteMember();
+		gameManager->DeleteMember();
 	}
 	return 0;
 }

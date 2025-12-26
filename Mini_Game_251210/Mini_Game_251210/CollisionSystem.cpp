@@ -1,8 +1,13 @@
 #include "CollisionSystem.h"
 
-CollisionSystem::CollisionSystem(const vector<shared_ptr<Monster>>& monster, const shared_ptr<Player>& player)
+CollisionSystem::CollisionSystem(const vector<shared_ptr<Monster>>& monsters, const shared_ptr<Player>& player)
 {
-	this->monster = monster;
+	monster.reserve(monsters.size());
+	for (const auto& m : monsters)
+	{
+		monster.push_back(m);
+	}
+
 	this->player = player;
 }
 
@@ -11,34 +16,38 @@ void CollisionSystem::ResolvePosition()
 	//플레이어와 몬스터가 같은 위치일 경우
 	//모든 몬스터를 서로 겹치지 않는 랜덤 값으로 변경
 	bool isSame = false;
-	for (int i = 0; i < monster.size(); i++)
+
+	auto wPlayer = LockOrNull(player);
+	if (wPlayer == nullptr)
+		return;
+
+	vector<shared_ptr<Monster>> alive = LockAlive(monster);
+	if (alive.empty())
+		return;
+	
+	const int px = wPlayer->GetX();
+	const int py = wPlayer->GetY();
+	
+	for (auto& m : alive)
 	{
-		if (monster[i]->GetDead())
-			continue;
-		if (monster[i]->GetX() == player->GetX())
+		if (m->GetX() == px && m->GetY() == py)
 		{
-			if (monster[i]->GetY() == player->GetY())
-				isSame = true;
+			if(!m->GetDead())
+				RandomFreePosition();
 		}
 	}
-	//몬스터끼리 겹치는 경우에도 겹치는 몬스터들의 위치를 랜덤 값으로 이동
-	for (int i = 0; i < monster.size() - 1; i++)
+
+	for (int i = 0; i < alive.size() - 1; i++)
 	{
-		if (monster[i]->GetDead() || monster[i + 1]->GetDead())
-			continue;
-		if (monster[i]->GetX() == monster[i + 1]->GetX())
+		for (int j = i + 1; j < alive.size(); j++)
 		{
-			if (monster[i]->GetY() == monster[i + 1]->GetY())
+			if (alive[i]->GetX() == alive[j]->GetX() && alive[i]->GetY() == alive[j]->GetY())
 			{
-				isSame = true;
+				if (!alive[i]->GetDead() && !alive[j]->GetDead())
+					RandomFreePosition();
 			}
 		}
 	}
-	if (isSame)
-	{
-		RandomFreePosition();
-	}
-
 }
 
 void CollisionSystem::RandomFreePosition() const
@@ -46,6 +55,15 @@ void CollisionSystem::RandomFreePosition() const
 	//Queue로 randomShuffleing으로 수정 예정
 	vector<pair<int, int>> pos;
 	queue<pair<int, int>> randomPos;
+	
+	auto wPlayer = LockOrNull(player);
+	if (wPlayer == nullptr)
+		return;
+
+	vector<shared_ptr<Monster>> alive = LockAlive(monster);
+	if (alive.empty())
+		return;
+
 	for (int i = 0; i < 20; i++)
 	{
 		for (int j = 0; j < 20; j++)
@@ -58,14 +76,14 @@ void CollisionSystem::RandomFreePosition() const
 	{
 		randomPos.push(pos[i]);
 	}
-	for (int i = 0; i < monster.size(); i++)
+	for (int i = 0; i < alive.size(); i++)
 	{
-		if (player->GetX() != randomPos.front().first && player->GetY() != randomPos.front().second)
+		if (wPlayer->GetX() != randomPos.front().first && wPlayer->GetY() != randomPos.front().second)
 		{
-			monster[i]->SetX(randomPos.front().first);
-			monster[i]->SetY(randomPos.front().second);
+			alive[i]->SetX(randomPos.front().first);
+			alive[i]->SetY(randomPos.front().second);
 		}
 		randomPos.pop();
 	}
-	
+
 }
