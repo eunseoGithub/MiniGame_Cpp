@@ -1,4 +1,5 @@
 #include "CollisionSystem.h"
+#include <random>
 
 CollisionSystem::CollisionSystem(const vector<shared_ptr<Monster>>& monsters, const shared_ptr<Player>& player)
 {
@@ -13,8 +14,8 @@ CollisionSystem::CollisionSystem(const vector<shared_ptr<Monster>>& monsters, co
 
 void CollisionSystem::ResolvePosition()
 {
-	//ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ°¡ °°Àº À§Ä¡ÀÏ °æ¿ì
-	//¸ğµç ¸ó½ºÅÍ¸¦ ¼­·Î °ãÄ¡Áö ¾Ê´Â ·£´ı °ªÀ¸·Î º¯°æ
+	//í”Œë ˆì´ì–´ì™€ ëª¬ìŠ¤í„°ê°€ ê°™ì€ ìœ„ì¹˜ì¼ ê²½ìš°
+	//ëª¨ë“  ëª¬ìŠ¤í„°ë¥¼ ì„œë¡œ ê²¹ì¹˜ì§€ ì•ŠëŠ” ëœë¤ ê°’ìœ¼ë¡œ ë³€ê²½
 	bool isSame = false;
 
 	auto wPlayer = LockOrNull(player);
@@ -52,7 +53,7 @@ void CollisionSystem::ResolvePosition()
 
 void CollisionSystem::RandomFreePosition() const
 {
-	//Queue·Î randomShuffleingÀ¸·Î ¼öÁ¤ ¿¹Á¤
+	//Queueë¡œ randomShuffleingìœ¼ë¡œ ìˆ˜ì • ì˜ˆì •
 	vector<pair<int, int>> pos;
 	queue<pair<int, int>> randomPos;
 	
@@ -71,14 +72,15 @@ void CollisionSystem::RandomFreePosition() const
 			pos.push_back({ i,j });
 		}
 	}
-	random_shuffle(pos.begin(), pos.end());
+	//random_shuffle(pos.begin(), pos.end());
+	shuffle(pos.begin(), pos.end(), mt19937{ random_device{}() });
 	for (int i = 0; i < pos.size(); i++)
 	{
 		randomPos.push(pos[i]);
 	}
 	for (int i = 0; i < alive.size(); i++)
 	{
-		if (wPlayer->GetX() != randomPos.front().first && wPlayer->GetY() != randomPos.front().second)
+		if (!(wPlayer->GetX() == randomPos.front().first && wPlayer->GetY() == randomPos.front().second))
 		{
 			alive[i]->SetX(randomPos.front().first);
 			alive[i]->SetY(randomPos.front().second);

@@ -16,13 +16,13 @@ Map::~Map()
 	
 }
 
-bool Map::RenderPlayer(int x, int y)
+bool Map::RenderPlayer(int y, int x)
 {
 	auto wPlayer = LockOrNull(player);
 	if (wPlayer == nullptr || wPlayer->GetDead())
 		return false;
 
-	if (wPlayer->GetX() == y && wPlayer->GetY() == x)
+	if (wPlayer->GetX() == x && wPlayer->GetY() == y)
 	{
 		return true;
 	}
@@ -58,7 +58,7 @@ void Map::Render()
 			{
 				cout << "M ";
 			}
-			// ¸ó½ºÅÍ¿Í Ä³¸¯ÅÍ°¡ µ¿ÀÏÇÑ À§Ä¡ÀÏ¶§ ¿¹¿ÜÃ³¸®
+			// ëª¬ìŠ¤í„°ì™€ ìºë¦­í„°ê°€ ë™ì¼í•œ ìœ„ì¹˜ì¼ë•Œ ì˜ˆì™¸ì²˜ë¦¬
 			else
 			{
 				cout << "- ";

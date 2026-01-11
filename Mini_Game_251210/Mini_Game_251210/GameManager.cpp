@@ -10,7 +10,7 @@ void GameManager::Initialize()
 	Instance->monster.push_back(make_shared<Monster>(4,5));
 	Instance->player = make_shared<Player>(10,10);
 	Instance->map = make_shared<Map>(20, Instance->monster, Instance->player);
-	Instance->currentCommand = NULL;
+	Instance->currentCommand = '\0';
 	Instance->combatSystem = make_shared<CombatSystem>(Instance->monster, Instance->player);
 	Instance->collisionSystem = make_shared<CollisionSystem>(Instance->monster, Instance->player);
 	Instance->hudSystem = make_shared<HudSystem>(Instance->monster, Instance->player);
@@ -25,7 +25,7 @@ void GameManager::Input()
 	bool endFlag = false;
 	while (1)
 	{
-		cout << "Ä¿¸Çµå¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.(ÀÌµ¿ : WASD, °ø°Ý : F) : ";
+		cout << "ì»¤ë§¨ë“œë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.(ì´ë™ : WASD, ê³µê²© : F) : ";
 		cin >> command;
 		if (command != 'W' && command != 'w' &&
 			command != 'A' && command != 'a' &&
@@ -33,7 +33,7 @@ void GameManager::Input()
 			command != 'D' && command != 'd' &&
 			command != 'F' && command != 'f')
 		{
-			cout << " W, A, S, D, F Áß¿¡¼­ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä!" << endl;
+			cout << " W, A, S, D, F ì¤‘ì—ì„œ ë‹¤ì‹œ ìž…ë ¥í•´ì£¼ì„¸ìš”!" << endl;
 		}
 		else
 		{
@@ -107,7 +107,7 @@ bool GameManager::CheckWin()
 	{
 		if (player->GetDead() == false)
 		{
-			cout << "ÇÃ·¹ÀÌ¾î°¡ °ÔÀÓ¿¡¼­ ½Â¸®ÇÏ¿´½À´Ï´Ù!!" << endl;
+			cout << "í”Œë ˆì´ì–´ê°€ ê²Œìž„ì—ì„œ ìŠ¹ë¦¬í•˜ì˜€ìŠµë‹ˆë‹¤!!" << endl;
 			return true;
 		}
 	}
@@ -117,7 +117,7 @@ bool GameManager::CheckLose()
 {
 	if (player->GetDead())
 	{
-		cout << "ÇÃ·¹ÀÌ¾î°¡ Á×¾ú½À´Ï´Ù!!" << endl;
+		cout << "í”Œë ˆì´ì–´ê°€ ì£½ì—ˆìŠµë‹ˆë‹¤!!" << endl;
 		return true;
 	}
 	else

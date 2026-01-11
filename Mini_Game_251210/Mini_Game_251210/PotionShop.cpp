@@ -9,11 +9,11 @@ PotionShop::PotionShop(int x, int y)
 
 void PotionShop::DispensePotion()
 {
-
+	//TODO
 }
 void PotionShop::ReturnPotion()
 {
-
+	//TODO
 }
 
 int PotionShop::GetX()

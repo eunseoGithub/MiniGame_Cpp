@@ -2,7 +2,7 @@
 
 HudSystem::HudSystem(const vector<shared_ptr<Monster>>& monsters, const shared_ptr<Player>& players)
 {
-	monster.reserve(monster.size());
+	monster.reserve(monsters.size());
 	for (const auto& m : monsters)
 	{
 		monster.push_back(m);

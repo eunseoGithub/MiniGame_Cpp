@@ -6,9 +6,6 @@ shared_ptr<GameManager> GameManager::Instance = nullptr;
 
 int main()
 {
-	shared_ptr<int> i = make_shared<int>(1);
-	weak_ptr<int> k = i;
-
 	GameManager::Initialize();
 
 	if (auto gameManager = GameManager::GetInstance().lock())
